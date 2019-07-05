@@ -10,6 +10,7 @@ numpy = "*"
 pandas = "*"
 telegram = "*"
 nltk = "*"
+sklearn = "*"
 
 [requires]
 python_version = "3.6"
