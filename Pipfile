@@ -12,6 +12,9 @@ nltk = "*"
 sklearn = "*"
 python-telegram-bot = "*"
 python-i18n = {extras = ["yaml"],version = "*"}
+bert-serving-server = "*"
+tensorflow = "*"
+bert-serving-client = "*"
 
 [requires]
 python_version = "3.6"
