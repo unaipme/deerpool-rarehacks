@@ -8,10 +8,10 @@ verify_ssl = true
 [packages]
 numpy = "*"
 pandas = "*"
-telegram = "*"
 nltk = "*"
 sklearn = "*"
 python-telegram-bot = "*"
+python-i18n = {extras = ["yaml"],version = "*"}
 
 [requires]
 python_version = "3.6"
