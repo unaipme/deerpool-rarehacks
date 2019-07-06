@@ -8,9 +8,12 @@ verify_ssl = true
 [packages]
 numpy = "*"
 pandas = "*"
-telegram = "*"
 nltk = "*"
 sklearn = "*"
+python-telegram-bot = "*"
+bert-serving-server = "*"
+tensorflow = "*"
+bert-serving-client = "*"
 
 [requires]
 python_version = "3.6"
