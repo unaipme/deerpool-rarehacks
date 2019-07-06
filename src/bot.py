@@ -1,6 +1,7 @@
 # importing Telegram API
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import telegram
+import finder
 
 def unai(bot, update):
 	bot.send_message(chat_id=update.message.chat_id, text="Hey hola que tal")
@@ -8,10 +9,13 @@ def unai(bot, update):
 	location_keyboard = telegram.KeyboardButton(text="Share your location", request_location=True)
 	custom_keyboard = [[location_keyboard]]
 	inline_markup = telegram.ReplyKeyboardMarkup(custom_keyboard)
-	bot.send_message(chat_id=update.message.chat_id, text="algo", reply_markup=inline_markup)
+	bot.send_message(chat_id=update.message.chat_id, text="Would you be so kind as to share your location?", reply_markup=inline_markup)
 
 def location(bot, update):
-	pass
+	print(update.message.location)
+	bot.send_message(chat_id=update.message.chat_id, text="")
+	poi = finder.find(lat=update.message.location.latitude, lng=update.message.location.longitude)
+
 
 def echo(bot, update):
 	print(update.message.text)
