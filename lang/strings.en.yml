@@ -1,0 +1,25 @@
+en:
+  en:
+    try-find-close-hospital-n: "2"
+    try-find-close-hospital-0: Let me try to find a hospital that is close to you...
+    try-find-close-hospital-1: Let's see if I find any hospital next to where you are
+    share-loc: Share your location
+    closest-hospital-is: So the closest hospital from your position is *%{name}*
+    give-location-pls-n: "2"
+    give-location-pls-0: Would you be so kind as to share your location?
+    give-location-pls-1: May I have your location?
+    other-hospital-options-n: "2"
+    other-hospital-options-0: Here are some alternatives
+    other-hospital-options-1: And these are some other options
+  es:
+    try-find-close-hospital-n: "2"
+    try-find-close-hospital-0: A ver si encuentro un hospital cerca de ti
+    try-find-close-hospital-1: Veamos si hay algún hospital por donde estás
+    share-loc: Comparte tu ubicación
+    closest-hospital-is: Parece ser que *%{name}* es el hospital más cercano a ti
+    give-location-pls-n: "2"
+    give-location-pls-0: ¿Te importaría compartir tu ubicación?
+    give-location-pls-1: ¿Podrías compartir tu ubicación conmigo?
+    other-hospital-options-n: "2"
+    other-hospital-options-0: He aquí algunas alternativas
+    other-hospital-options-1: Y debajo algunas alternativas, a ver qué opinas
