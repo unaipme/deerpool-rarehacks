@@ -84,7 +84,9 @@ def load_questions():
 		for line in readCSV:
 			answers.append(line[1].rstrip())
 
-## I DONT BELIEVE YOU, we need to answer that
+
+# I DONT BELIEVE YOU, we need to answer that
+
 
 def init_text_parser():
 	global bert_client

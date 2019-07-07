@@ -1,3 +1,6 @@
 token.txt
 .idea/
 **/__pycache__/
+Pipfile.lock
+tmp*/
+nohup.out
