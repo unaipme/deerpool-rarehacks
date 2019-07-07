@@ -25,7 +25,7 @@ def load_questions():
 		readCSV = csv.reader(csv_questions, delimiter=';')
 		next(readCSV)
 		for line in readCSV:
-			questions.append( (line[1].rstrip(),int(line[0])))
+			questions.append((line[1].rstrip(), int(line[0])))
 
 	print('Loading answers...')
 	with open(ANSWERS_FILE) as csv_answers:
@@ -65,8 +65,9 @@ def com_handler(bot, update):
 	print(questions[topk_idx[0]][0])
 	for idx in topk_idx:
 		print('> %s\t%s' % (score[idx], questions[idx]))
-
-	bot.send_message(chat_id=update.message.chat_id, text=questions[topk_idx[0]][0])
+	ans_id = answers[topk_idx[0]].replace("$lang", get_lang(update))
+	#bot.send_message(chat_id=update.message.chat_id, text=questions[topk_idx[0]][0] + ", you ask?")
+	bot.send_message(chat_id=update.message.chat_id, text=i18n.t(ans_id), parse_mode=telegram.ParseMode.MARKDOWN)
 
 
 def unai(bot, update):
