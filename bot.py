@@ -1,12 +1,11 @@
 import csv
 import numpy as np
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
-from random import randrange
+from telegram.ext import Updater, MessageHandler, Filters
+from random import randrange, uniform
 import telegram
 import finder
 import time
 import i18n
-import sys
 from bert_serving.client import BertClient
 
 QUESTIONS_FILE = 'data/questions.csv'
@@ -33,7 +32,7 @@ def load_questions():
 		readCSV = csv.reader(csv_answers, delimiter=';')
 		next(readCSV)
 		for line in readCSV:
-			answers.append((line[1].rstrip(), line[4] == "True"))
+			answers.append((line[1].rstrip(), line[2] == "True", line[3] == "True", line[4]))
 
 
 def get_lang(update):
@@ -68,7 +67,14 @@ def com_handler(bot, update):
 	else:
 		ans_id = answers[questions[topk_idx[0]][1] - 1][0].replace("$lang", get_lang(update))
 		#bot.send_message(chat_id=update.message.chat_id, text=questions[topk_idx[0]][0] + ", you ask?")
-		bot.send_message(chat_id=update.message.chat_id, text=i18n.t(ans_id), parse_mode=telegram.ParseMode.MARKDOWN)
+		msg = i18n.t(ans_id).split("\n")
+		for s_msg in msg:
+			bot.send_message(chat_id=update.message.chat_id, text=s_msg, parse_mode=telegram.ParseMode.MARKDOWN)
+			time.sleep(3 + uniform(-0.75, 0.75))
+		if answers[questions[topk_idx[0]][1] - 1][2]:
+			time.sleep(1)
+			contact_info = answers[questions[topk_idx[0]][1] - 1][3].split(",")
+			bot.send_contact(chat_id=update.message.chat_id, phone_number=contact_info[0], first_name=contact_info[1])
 
 
 def ask_location(bot, update):
