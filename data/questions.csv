@@ -13,7 +13,7 @@ questionId;question
 12;What type of follow-up care will we need
 13;Is there any financial aid that I can opt for
 14;For how long will I stay in the hospital
-15;What are possible complications of melamoma
+15;What are possible complications of melanoma
 16;Can I do normal activities
 17;Can I go to the beach
 18;Can I play sports
@@ -25,4 +25,6 @@ questionId;question
 24;What are the possible side effects of YERVOY
 25;What diet should be followed
 26;Where can I find psychological support
-27;How can I prevent melanoma 
+27;How can I prevent melanoma
+28;Hello
+29;How
