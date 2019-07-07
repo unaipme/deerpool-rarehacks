@@ -6,6 +6,7 @@ import telegram
 import finder
 import time
 import i18n
+import sys
 from bert_serving.client import BertClient
 
 QUESTIONS_FILE = 'data/questions.csv'
@@ -32,7 +33,7 @@ def load_questions():
 		readCSV = csv.reader(csv_answers, delimiter=';')
 		next(readCSV)
 		for line in readCSV:
-			answers.append(line[1].rstrip())
+			answers.append((line[1].rstrip(), line[4] == "True"))
 
 
 def get_lang(update):
@@ -51,27 +52,27 @@ def com_handler(bot, update):
 	if first_message:
 		global language
 		language = update.message.from_user.language_code
-		print("First message")
 		doc_vecs = bert_client.encode([x[0] for x in questions])
-		print("First message")
 		global first_question
 		first_question = False
-	print("Hey")
 	query_vec = bert_client.encode([text])[0]
 	# compute normalized dot product as score
 	topk = 5
 	score = np.sum(query_vec * doc_vecs, axis=1) / np.linalg.norm(doc_vecs, axis=1)
 	topk_idx = np.argsort(score)[::-1][:topk]
-	print(questions[topk_idx[0]][0])
 	for idx in topk_idx:
 		print('> %s\t%s' % (score[idx], questions[idx]))
-	ans_id = answers[topk_idx[0]].replace("$lang", get_lang(update))
-	#bot.send_message(chat_id=update.message.chat_id, text=questions[topk_idx[0]][0] + ", you ask?")
-	bot.send_message(chat_id=update.message.chat_id, text=i18n.t(ans_id), parse_mode=telegram.ParseMode.MARKDOWN)
+	if answers[questions[topk_idx[0]][1] - 1][1]:
+		bot.send_message(chat_id=update.message.chat_id, text=rand_str(get_lang(update), "ask-location"))
+		ask_location(bot, update)
+	else:
+		ans_id = answers[questions[topk_idx[0]][1] - 1][0].replace("$lang", get_lang(update))
+		#bot.send_message(chat_id=update.message.chat_id, text=questions[topk_idx[0]][0] + ", you ask?")
+		bot.send_message(chat_id=update.message.chat_id, text=i18n.t(ans_id), parse_mode=telegram.ParseMode.MARKDOWN)
 
 
-def unai(bot, update):
-	#bot.send_message(chat_id=update.message.chat_id, text="Hey hola que tal?")
+def ask_location(bot, update):
+	#bot.send_message(chat_passid=update.message.chat_id, text="Hey hola que tal?")
 	#bot.send_contact(chat_id=update.message.chat_id, phone_number="112", first_name="Teléfono de emergencias")
 	location_keyboard = telegram.KeyboardButton(text=i18n.t("strings.{}.share-loc".format(get_lang(update))), request_location=True)
 	custom_keyboard = [[location_keyboard]]
@@ -100,22 +101,6 @@ def location(bot, update):
 #	bot.send_message(chat_id=update.message.chat_id, text="Algo\n∙ Algo")
 
 
-def load_questions():
-	print('Loading questions...')
-	with open(QUESTIONS_FILE) as csv_questions:
-		readCSV = csv.reader(csv_questions, delimiter=';')
-		next(readCSV)
-		for line in readCSV:
-			questions.append( (line[1].rstrip(),int(line[0])))
-
-	print('Loading answers...')
-	with open(ANSWERS_FILE) as csv_answers:
-		readCSV = csv.reader(csv_answers, delimiter=';')
-		next(readCSV)
-		for line in readCSV:
-			answers.append(line[1].rstrip())
-
-
 i18n.load_path.append("lang")
 
 # loading the access token from token.txt
@@ -126,8 +111,8 @@ updater = Updater(token=TOKEN)
 dispatcher = updater.dispatcher
 
 # handling callbacks functions to the commands
-dispatcher.add_handler(CommandHandler('unai', unai))
-dispatcher.add_handler(CommandHandler('chatbot', com_handler))
+#dispatcher.add_handler(CommandHandler('unai', unai))
+#dispatcher.add_handler(CommandHandler('chatbot', com_handler))
 dispatcher.add_handler(MessageHandler(Filters.location, location))
 dispatcher.add_handler(MessageHandler(Filters.all, com_handler))
 
